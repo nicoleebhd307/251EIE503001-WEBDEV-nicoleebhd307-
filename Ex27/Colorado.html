@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Exercise 27: Bùi Hoàng Diệu</title>
+    <style>
+        .main {
+            display: flex;
+        }
+        .sidebar {
+            flex: 25%;
+            background-image: url(Image/Wall2.jpg);
+        }
+        .content {
+            flex: 75%;
+            height: 100%;
+            background-color: antiquewhite;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <img src="images/LOGO.JPG" alt="Logo" />
+    <div class="main">
+        <div class="sidebar" style="background-color:rgb(255, 224, 229)">
+            <!--Khi click vào link, 
+            nội dung trang sẽ được hiển thị trong iframe 
+            có thuộc tính name="ct_iframe"-->
+            <p><a href="TCE.html" target="ct_iframe">Home Page</a></p>
+            <p><a href="Philosph.html" target="ct_iframe">Our Philosophy</a></p>
+            <p><a href="Lessons.html" target="ct_iframe">Climbing Lessons</a></p>
+            <p><a href="#">Tours</a></p> <!--khai báo một thẻ a không muốn trỏ đến một liên kết nào cả-->
+            <div> <!--&nbsp: khoảng trắng-->
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="Grepon.html" target="ct_iframe">Petit Grepon</a></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="Lumpy.html" target="ct_iframe">Lumpy Ridge</a></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="NFace.html" target="ct_iframe">North Face</a></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="Kieners.html" target="ct_iframe">Kiener's</a></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="Diamond.html" target="ct_iframe">The Diamond</a></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="Eldorado.html" target="ct_iframe">Eldorado</a></p>
+            </div>
+            <p style="color:darkslateblue">Staff</p>
+        </div>
+        <div class="content"> <!--mặc định nội dung chính xuất hiện đầu tiên là trang TCE-->
+            <iframe src="TCE.html" name="ct_iframe"></iframe>
+        </div>
+    </div>
+</body>
+</html>
