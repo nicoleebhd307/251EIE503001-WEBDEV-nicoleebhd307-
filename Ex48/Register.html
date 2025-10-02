@@ -1,0 +1,136 @@
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title> Ex48: Bùi Hoàng Diệu </title>
+  <style>
+    body{
+        background-color:rgb(167, 202, 255);
+    }
+    table {
+        margin-top: 10px;
+        padding-bottom: 10px;
+    }
+    td {
+        padding: 5px;
+        text-align:left
+    }
+    input, select, textarea {
+        margin: 3px;
+    }
+    hr{
+        border:1px solid black
+    }
+    textarea {
+        width: 400px;
+        height: 100px;
+    }
+  </style>
+  <script>
+    // Hàm xử lý khi bấm nút Register
+    function registerForm(event){
+        event.preventDefault(); // Ngăn không load lại trang
+        alert("Registration Successful!");
+    }
+
+    // Hàm xử lý khi bấm nút Cancel
+    function cancelForm(){
+        document.getElementById("dangky").reset();
+    }
+  </script>
+</head>
+<body align="center">
+     <h1>
+        <img src="Jackson.gif" alt="logo">
+     </h1>
+     <h2>Registration Form</h2>
+     <h4>Register your Jackson Electronics product here</h4>
+     <form id="dangky" method="post"> 
+        <table align="center">
+            <tr>
+                <td>First Name:</td>
+                <td><input type="text" id="firstname"></td>
+                <td>Last Name:</td>
+                <td><input type="text" id="lastname"></td>
+            </tr>
+            <tr>
+                <td>Address #1:</td>
+                <td colspan="3"><input type="text" id="add1" style="width: 350px;"></td>
+            </tr>
+            <tr>
+                <td>Address #2:</td>
+                <td colspan="3"><input type="text" id="add2" style="width: 350px;"></td>
+            </tr>
+            <tr>
+                <td>City:</td>
+                <td><input type="text" id="city"></td>
+                <td>State: <input type="text" id="state" style="width: 60px;"> </td>
+                <td> Zip: <input type="text" id="zip" style="width: 60px;"></td>
+            </tr>
+            <tr>
+                <td>Country:</td>
+                <td colspan="3"><input type="text" id="country" value="United States" style="width: 350px;"></td>
+            </tr>
+            <tr><td colspan="4"><hr/></td></tr>
+
+            <tr>
+                <td>Product: </td>
+                <td>
+                  <select>
+                    <option>ScanMaster</option>
+                    <option>Printer</option>
+                    <option>Smartphone</option>
+                    <option>Laptop</option>
+                    <option>Tablet</option>
+                    <option>Smart TV</option>
+                    <option>Bluetooth Speaker</option>
+                    <option>Headphones</option>
+                    <option>Smartwatch</option>
+                    <option>Camera</option>
+                  </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Date Purchased: </td>
+                <td><input type="date" id="date"></td>
+            </tr>
+            <tr>
+                <td>Serial #: </td>
+                <td><input type="text" id="seri"></td>
+            </tr>
+            <tr>
+                <td rowspan="3" valign="top">Used for: </td>
+                <td><input type="radio" name="used" value="Home"> Home</td>
+                <td><input type="radio" name="used" value="Institution"> Educational Institution</td>
+            </tr>
+            <tr>
+                <td><input type="radio" name="used" value="Business"> Business</td>
+                <td><input type="radio" name="used" value="Other"> Other</td>
+            </tr>
+            <tr>
+                <td><input type="radio" name="used" value="Government"> Government</td>
+            </tr>
+            <tr>
+                <td rowspan="2">System (check all that apply): </td>
+                <td><input type="checkbox" value="Windows"> Windows</td>
+                <td><input type="checkbox" value="UNIX"> UNIX</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" value="Macintosh"> Macintosh</td>
+                <td><input type="checkbox" value="Other"> Other</td>
+            </tr>
+            <tr><td colspan="4"><hr/></td></tr>
+
+            <tr>
+                <td valign="top">Comments?:</td>
+                <td colspan="3"><textarea></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="4" align="center">
+                    <input type="submit" value="Click to register" onclick="registerForm(event)">
+                    <input type="button" value="Click to cancel" onclick="cancelForm()">
+                </td>
+            </tr>
+        </table>
+     </form>
+</body>
+</html>
