@@ -24,6 +24,7 @@
         width: 400px;
         height: 100px;
     }
+
   </style>
   <script>
     // Hàm xử lý khi bấm nút Register
@@ -32,10 +33,6 @@
         alert("Registration Successful!");
     }
 
-    // Hàm xử lý khi bấm nút Cancel
-    function cancelForm(){
-        document.getElementById("dangky").reset();
-    }
   </script>
 </head>
 <body align="center">
@@ -127,7 +124,7 @@
             <tr>
                 <td colspan="4" align="center">
                     <input type="submit" value="Click to register" onclick="registerForm(event)">
-                    <input type="button" value="Click to cancel" onclick="cancelForm()">
+                    <input type="reset" value="Click to cancel">
                 </td>
             </tr>
         </table>
