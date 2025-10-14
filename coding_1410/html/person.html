@@ -1,0 +1,64 @@
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title> </title>
+  <script type="text/javascript">
+    var person=
+    {
+      ID:"CUS01",
+      FirstName:"John",
+      LastName:"Doe",
+      BirthDate:new Date(1990,0,1),
+      FullName:function()
+      {
+        return this.FirstName+" "+this.LastName 
+      },
+      Age:function()
+      {
+        return new Date().getFullYear()-this.BirthDate.getFullYear()
+        //new Date().getFullYear() lấy năm hiện tại
+        //this.BirthDate.getFullYear() lấy năm sinh của người đó
+      }
+    }
+
+  </script>
+</head>
+<body>
+     <table border="1">
+      <tr>
+        <td>ID:</td>
+        <td id="td_id"></td>
+      </tr>
+      <tr>
+        <td>FirstName:</td>
+        <td id="td_firstname"></td>
+      </tr>
+      <tr>
+        <td>LastName:</td>
+        <td id="td_lastname"></td>
+      </tr>
+      <tr>
+        <td>BirthDate:</td>
+        <td id="td_birthdate"></td>
+      </tr>
+      <tr>
+        <td>FullName:</td>
+        <td id="td_fullname"></td>
+      </tr>
+      <tr>
+        <td>Age:</td>
+        <td id="td_age"></td>
+      </tr>
+
+     </table>
+    <script type="text/javascript">
+      td_id.innerText=person.ID
+      td_firstname.innerText=person.FirstName
+      td_lastname.innerText=person["LastName"]
+      td_birthdate.innerText=person.BirthDate.toDateString()
+      td_fullname.innerText=person.FullName()
+      td_age.innerText=person.Age()
+
+    </script>
+</body>
+</html>
