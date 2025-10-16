@@ -1,0 +1,123 @@
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title> Page Title </title>
+  <script>
+    norm_customer=0
+    vip_customer=0
+    function save_customer()
+    {
+        id=frm_customer_input.customer_id.value // nhờ thuộc tính value: lấy dữ liệu từ ô input -> biến 
+        name=frm_customer_input.customer_name.value
+        email=frm_customer_input.customer_email.value
+        type=frm_customer_input.customer_type.checked //nhận dữ liệu khi checked ô checkbox 
+        
+        if (type==true)
+            vip_customer++
+        else
+            norm_customer++
+        //alert(type) //thông báo true or false dựa vào checked
+        frm_customer_output.norm_customer.value=norm_customer //giá trị của ô output được gán bằng biến
+        frm_customer_output.vip_customer.value=vip_customer
+
+        //frm_customer_output.td_customer_id.value=id // SAI - td_customer_id không phải là thẻ input -> không có thuộc tính value 
+
+        // Trong trường hợp dùng thuộc tính NAME:
+        td_customer_id=document.getElementById("td_customer_id") //biến trỏ đến 1 thẻ <td> bằng id (   dùng document.getElementById("")  )
+        td_customer_id.innerText=id // thuộc tính gán giá trị (văn bản thường) cho <td> (giống value cho thẻ input)
+
+        td_customer_name=document.getElementById("td_customer_name")
+        td_customer_name.innerText=name 
+
+        td_customer_email=document.getElementById("td_customer_email")
+        td_customer_email.innerHTML="<font color='blue'>" +email+ "</font>" //giống innerText nhưng gán 1 thẻ HTML, truyền vào dữ liệu chuỗi, dùng + để nối chuỗi 
+    }
+
+    function process_help()
+    {
+        if (confirm("Xác nhận?")) //hiển thị alert, nếu xác nhận -> true 
+        {
+            window.open("https://uel.edu.vn","_blank") //mở cửa sổ trang uel 
+        }
+    }
+  </script>
+</head>
+<body>
+     <form name="frm_customer_input">
+        <table>
+            <tr>
+                <td>Customer ID:</td>
+                <td>
+                    <input type="text" name="customer_id" id="customer_id"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Customer Name:</td>
+                <td>
+                    <input type="text" name="customer_name" id="customer_name"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Customer Email:</td>
+                <td>
+                    <input type="text" name="customer_email" id="customer_email"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Type of Customer:</td>
+                <td>
+                    <input type="checkbox" name="customer_type" id="customer_type">
+                    <label for="customer_type">IS VIP </label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="button" onclick="save_customer()">Save Customer</button>
+                    <button type="reset">Reset</button>
+                    <button type="button" onclick="process_help()">Help</button>
+                </td>
+            </tr>
+        </table>
+     </form>
+
+     <form name="frm_customer_output">
+        <table>
+            <tr>
+                <td>Number of Normal Customer: </td>
+                <td>
+                    <input type="text" name="norm_customer" id="norm_customer"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Number of VIP Customer: </td>
+                <td>
+                    <input type="text" name="vip_customer" id="vip_customer"/>
+                </td>
+            </tr>
+        </table>
+
+        <tr>
+            <td colspan="2">Lasted Customer:</td>
+        </tr>
+        <tr>
+            <td colspan="2" id="td_customer_output">
+                <table border="1">
+                    <tr>
+                        <td>Customer ID:</td>
+                        <td id="td_customer_id"></td>
+                    </tr>
+                    <tr>
+                        <td>Customer Name:</td>
+                        <td id="td_customer_name"></td>
+                    </tr>
+                    <tr>
+                        <td>Customer Email:</td>
+                        <td id="td_customer_email"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+     </form>
+</body>
+</html>
