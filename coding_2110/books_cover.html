@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>Tiêu đề trang</title>
+    </head>
+    <body>
+        <table border="1">
+            <caption>Danh sách sách</caption>
+            <thead>
+                <tr>
+                    <th>Tên sách</th>
+                    <th>Tác giả</th>
+                    <th>Năm xuất bản</th>
+                    <th>Bìa sách</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="book_tbody">
+
+
+            </tbody>
+        </table>
+        <script type="text/javascript">
+              var xhr =new XMLHttpRequest();
+            xhr.open("GET","datasets/books_cover.xml",true);
+            xhr.send();
+            xhr.onreadystatechange=function()
+            {
+                if (xhr.readyState==4 && xhr.status==200)
+                {
+                    var xmlDoc =xhr.responseXML
+                    var books=xmlDoc.getElementsByTagName("book")
+                    for (i=0;i<books.length;i++)
+                    {
+
+                        book=books[i]
+
+                        td_title=document.createElement("td")
+                        title=book.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                        td_title.innerText=title
+
+                        td_author=document.createElement("td")
+                        author=book.getElementsByTagName("author")[0].childNodes[0].nodeValue;
+                        td_author.innerText=author
+
+                        td_year=document.createElement("td")
+                        year=book.getElementsByTagName("year")[0].childNodes[0].nodeValue;
+                        td_year.innerText=year
+                                                
+                        td_cover=document.createElement("td")
+                        cover=book.getElementsByTagName("cover")[0].childNodes[0].nodeValue;
+                        //td_cover.innerText=cover
+                        img_cover=document.createElement("img")
+                        img_cover.setAttribute("src","images/"+cover)
+                        img_cover.setAttribute("width","100")
+                        img_cover.setAttribute("height","150")
+
+                        td_cover.appendChild(img_cover)
+
+                        td_action=document.createElement("td")
+                        tr=document.createElement("tr")
+                        tr.appendChild(td_title)
+                        tr.appendChild(td_author)
+                        tr.appendChild(td_year)
+                        tr.appendChild(td_cover)
+                        tr.appendChild(td_action)
+                        book_tbody.appendChild(tr) 
+
+                    }
+                }
+                else
+                {
+                    //handling when data can't be loaded
+                }
+            }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+{
+    "accounts": [
+        {
+            "user": "admin",
+            "name": "John Doe",
+            "password": "admin123",
+            "role": "administrator"
+        },
+        {
+            "user": "jane_smith",
+            "name": "Jane Smith",
+            "password": "jane123",
+            "role": "user"
+        }
+    ]
+}
