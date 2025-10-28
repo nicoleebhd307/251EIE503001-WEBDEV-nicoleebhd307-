@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title> Học API: Midterm </title>
+    <script>
+        //vào Inspect -> Network -> tìm api -> lấy path api 
+        function load_weathers() {
+            api = "https://webapi.dantri.com.vn/misc"
+            var xhr = new XMLHttpRequest()
+            xhr.open("get", api, true)
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    string_json = xhr.responseText;
+                    my_div.innerText = string_json;
+                    object_json = JSON.parse(string_json) //lấy về chuỗi format JSON 
+                    weathers = object_json.weathers
+                    display_weathers(weathers) //tham số truyền vào là tên biết trên api
+                }
+            }
+        }
+
+        function display_weathers(weathers)
+        {
+        for (i = 0; i < weathers.length; i++) {
+            weather = weathers[i]
+            tr = document.createElement("tr")
+            td_name = document.createElement("td")
+            td_temp = document.createElement("td")
+            td_status = document.createElement("td")
+            td_icon = document.createElement("td")
+
+            td_name.innerText = weather.name
+            td_temp.innerText = weather.temperature
+            td_status.innerText = weather.clouds
+            img_icon = document.createElement("img");
+api_icon = "https://openweathermap.org/img/wn/" + weather.icon + "@2x.png";
+img_icon.setAttribute("src", api_icon);   // ✅ Gán src cho ảnh
+td_icon.appendChild(img_icon);            // ✅ Thêm ảnh vào ô td_icon
+
+            tr.appendChild(td_name)
+            tr.appendChild(td_temp)
+            tr.appendChild(td_status)
+            tr.appendChild(td_icon)
+
+            weather_body.appendChild(tr);             // ✅ Gắn hàng vào bảng
+
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div id="my_div" style="height:100px; overflow-y: scroll; background-color: antiquewhite;">
+
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>temperature</th>
+                <th>clouds</th>
+                <th>icon</th>
+            </tr>
+        </thead>
+
+        <tbody id="weather_body">
+
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        load_weathers()
+    </script>
+</body>
+
+</html>

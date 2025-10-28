@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title> Page Title </title>
+    <script type="text/javascript">
+        fullname = "SV01;Bùi Hoàng Diệu;dieubh234112e@st.uel.edu.vn"
+        vt = fullname.lastIndexOf(";") /*tìm vị trí của dấu ; cuối cùng*/
+        alert("Vị trí của dấu ; cuối cùng là: " + vt)
+        email = fullname.substring(vt + 1) /*trích chuỗi từ vị trí vt+1 đến hết chuỗi*/
+        document.writeln(email)
+
+        arr = fullname.split(";") /*tách chuỗi thành mảng dựa vào dấu ; */
+        document.writeln("<h1>" + arr[1] + "</h1>") /*in phần tử thứ 2 của mảng*/
+        document.writeln("<h2> Email: " + arr[2] + "</h2>")
+
+        thongtin = arr[0].concat(" ", arr[0]).concat(" ", arr[1]) /*nối chuỗi*/
+        document.writeln("<h3>" + thongtin + "</h3>")
+
+        var HocSinh = ["Bui Hoang Dieu", "Tran Khanh Linh", "Nguyen Van A", "Le Thi B"]
+        var GiaoVien = new Array(2)
+        GiaoVien[0] = "Trinh Quang Viet"
+        GiaoVien[1] = "Tran Duy Thanh"
+        for (i = 0; i < HocSinh.length; i++) {
+            document.writeln(HocSinh[i])
+        }
+        viewer = "<lo>"
+        for (i = 0; i < GiaoVien.length; i++) {
+            viewer += "<li>" + GiaoVien[i] + "</li>"
+        }
+        viewer += "</lo>"
+        document.writeln(viewer)
+
+        date= new Date()
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

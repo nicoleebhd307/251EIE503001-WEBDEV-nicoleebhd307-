@@ -1,0 +1,29 @@
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title> Page Title </title>
+  <script>
+    /*Cú pháp LỚP đối tượng: objectName.propertyName hoặc objectName["propertyName"] 
+            PHƯƠNG THỨC của đối tượng: objectName.method() */
+    var car={
+        type:"Fiat",
+        model:"500",
+        color:"white",
+        /* THUỘC TÍNH : giá trị quyết định kiểu dữ liệu */
+
+        fullInfo: function() {
+            return this.type + " " + this.model 
+        }
+    }
+
+    
+  </script>
+</head>
+<body>
+    <p id="test"></p>
+    <script>
+            document.getElementById("test").innerHTML = car.type +" "+car.color
+            document.getElementById("test").innerHTML=car.fullInfo()
+    </script>
+</body>
+</html>
