@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ordered List with Button Style</title>
+    <style>
+        ol {
+            list-style: none; /* Ẩn số thứ tự mặc định */
+            counter-reset: item; /* Reset counter */
+            padding-left: 0;
+        }
+
+        ol li {
+            counter-increment: item; /* Tăng counter cho mỗi li */
+            margin: 10px 0;
+        }
+
+        .list-button {
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .list-button:before {
+            content: counter(item) ". "; /* Hiển thị số thứ tự */
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .list-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .list-button:active {
+            background-color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Danh sách các khóa học</h2>
+    <ol>
+        <li>
+            <button class="list-button" onclick="alert('Bạn đã chọn HTML & CSS')">
+                HTML & CSS Cơ bản
+            </button>
+        </li>
+        <li>
+            <button class="list-button" onclick="alert('Bạn đã chọn JavaScript')">
+                JavaScript Programming
+            </button>
+        </li>
+        <li>
+            <button class="list-button" onclick="alert('Bạn đã chọn Python')">
+                Python for Beginners
+            </button>
+        </li>
+        <li>
+            <button class="list-button" onclick="alert('Bạn đã chọn Java')">
+                Java Development
+            </button>
+        </li>
+        <li>
+            <button class="list-button" onclick="alert('Bạn đã chọn React')">
+                React Framework
+            </button>
+        </li>
+    </ol>
+</body>
+</html>

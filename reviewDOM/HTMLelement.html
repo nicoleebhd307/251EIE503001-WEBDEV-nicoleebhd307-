@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title> Page Title </title>
+
+</head>
+
+<body>
+    <div id="href_place"></div>
+
+    <script>
+        divHolder = document.getElementById("href_place") //get vị trí thẻ div
+
+        newElement = document.createElement("a") //tạo biến newElement là một thẻ a
+        newElement.innerText = "link" //set Text (nội dung)
+        newElement.setAttribute("href", "#") //thêm "thuộc tính", "value"
+        newElement.setAttribute("style", "color:pink")
+
+        divHolder.appendChild(newElement) // thêm element con vào thẻ div (cha)
+
+        function loadProducts() //tạo thẻ ol đặt trong div
+        {
+            arr = ["Chuối", "Táo", "Mận", "Bưởi", "Ối"]
+            olFruit_div = document.getElementById('ol')
+            ol_arr = document.createElement("ol")
+            for (i = 0; i < arr.length; i++) {
+                li_arr = document.createElement("li")
+                li_arr.innerText = arr[i]
+                ol_arr.appendChild(li_arr)
+            }
+            olFruit_div.appendChild(ol_arr)
+        }
+
+        function loadProducts2() //Tạo nhiều thẻ li đặt trong thẻ <ul> 
+        {
+            olHolder = document.getElementById("productholder")
+            arr = ["Chuối", "Táo", "Mận", "Bưởi", "Xoài"]
+            for (i = 0; i < arr.length; i++) {
+                newElement = document.createElement("li")
+                newElement.innerHTML = "<font color:'blue'>" + arr[i] + "</font>"
+                olHolder.appendChild(newElement)
+                // Xóa HTML Element : removeChild()
+
+            }
+
+        }
+    </script>
+    <button type="button" onclick="loadProducts()">Load Products</button>
+    <div id="ol"></div>
+    <button type="button" onclick="loadProducts2()">Load Products</button>
+
+    <ul id="productholder"></ul>
+    <a href="#" style="color:red">Thẻ a tạo theo cách thường</a>
+
+
+</body>
+
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VnExpress Giải Trí - RSS Reader (XML DOM)</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #00bfa6 0%, #007b83 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .header {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .header h1 {
+        color: #004f4d;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+
+    .header .subtitle {
+        color: #555;
+        font-size: 1.1em;
+    }
+
+    .last-update {
+        background: rgba(255, 255, 255, 0.25);
+        padding: 10px 20px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-top: 15px;
+        color: #004f4d;
+    }
+
+    .controls {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn {
+        background: linear-gradient(135deg, #00bfa6 0%, #007b83 100%);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+    }
+
+    .loading {
+        text-align: center;
+        color: white;
+        font-size: 1.2em;
+        padding: 40px;
+    }
+
+    .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 25px;
+    }
+
+    .news-item {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+    }
+
+    .news-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .news-image {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        background: #e0f2f1;
+    }
+
+    .news-content {
+        padding: 20px;
+    }
+
+    .news-title {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #004f4d;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+
+    .news-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 15px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .news-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9em;
+        color: #999;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+
+    .news-date {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .error {
+        background: #ff6b6b;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .filter-controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        background: white;
+        border: 2px solid #00bfa6;
+        color: #00bfa6;
+        padding: 8px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .filter-btn.active {
+        background: #00bfa6;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .news-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+        }
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📰 VnExpress Giải Trí</h1>
+            <p class="subtitle">Tin tức giải trí cập nhật mới nhất (XML DOM Version)</p>
+            <div class="last-update" id="lastUpdate">Đang tải...</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="loadRSS()">🔄 Làm mới</button>
+            <div class="filter-controls">
+                <button class="filter-btn active" onclick="filterByDate('all')">Tất cả</button>
+                <button class="filter-btn" onclick="filterByDate('today')">Hôm nay</button>
+                <button class="filter-btn" onclick="filterByDate('yesterday')">Hôm qua</button>
+                <button class="filter-btn" onclick="filterByDate('week')">Tuần này</button>
+            </div>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Đang tải tin tức...</p>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div class="news-grid" id="newsContainer"></div>
+    </div>
+
+    <script type="text/javascript">
+        var allNews = [];
+        var currentFilter = 'all';
+
+        function loadRSS() {
+            var loading = document.getElementById('loading');
+            var error = document.getElementById('error');
+            var newsContainer = document.getElementById('newsContainer');
+            
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            newsContainer.innerHTML = '';
+
+            // Sử dụng XMLHttpRequest để lấy RSS feed từ VnExpress
+            // Sử dụng CORS proxy để bypass CORS policy
+            var rssUrl = 'https://vnexpress.net/rss/giai-tri.rss';
+            var corsProxy = 'https://api.allorigins.win/raw?url=';
+            //var corsProxy = 'https://corsproxy.io/?';
+
+            var fullUrl = corsProxy + encodeURIComponent(rssUrl);
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", fullUrl, true);
+            xhr.send();
+            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Xử lý thành công - dùng XML DOM
+                    try {
+                        // Parse XML từ responseText
+                        var parser = new DOMParser();
+                        var xmlDoc = parser.parseFromString(xhr.responseText, "text/xml");
+                        
+                        if (xmlDoc) {
+                            // Parse XML để lấy dữ liệu
+                            parseXMLData(xmlDoc);
+                            displayNews();
+                            updateLastUpdateTime();
+                            loading.style.display = 'none';
+                        } else {
+                            showError('Không thể parse XML!');
+                            loading.style.display = 'none';
+                        }
+                    } catch (err) {
+                        showError('Lỗi khi parse XML: ' + err.message);
+                        console.error(err);
+                        loading.style.display = 'none';
+                    }
+                } else if (xhr.readyState == 4) {
+                    // Xử lý lỗi
+                    showError('Không thể tải RSS feed! Status: ' + xhr.status + 
+                             '<br>Vui lòng kiểm tra kết nối internet.');
+                    loading.style.display = 'none';
+                }
+            };
+        }
+
+        function parseXMLData(xmlDoc) {
+            allNews = []; // Reset mảng
+            
+            // Lấy tất cả các thẻ <item> trong XML
+            var items = xmlDoc.getElementsByTagName("item");
+            
+            // Duyệt qua từng item và lấy dữ liệu
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                
+                // Lấy giá trị của các thẻ con bằng XML DOM
+                var title = getNodeValue(item, "title");
+                var description = getNodeValue(item, "description");
+                var link = getNodeValue(item, "link");
+                var pubDate = getNodeValue(item, "pubDate");
+                
+                // Lấy hình ảnh từ thẻ <description> (VnExpress embed ảnh trong CDATA)
+                var image = extractImageFromDescription(description);
+                
+                // Loại bỏ HTML tags khỏi description
+                var cleanDescription = description.replace(/<[^>]*>/g, '').substring(0, 200);
+                
+                // Thêm vào mảng allNews
+                allNews.push({
+                    title: title,
+                    description: cleanDescription,
+                    link: link,
+                    pubDate: new Date(pubDate),
+                    image: image
+                });
+            }
+        }
+
+        function extractImageFromDescription(html) {
+            // Trích xuất URL ảnh từ thẻ <img> trong description
+            var imgMatch = html.match(/<img[^>]+src="([^">]+)"/);
+            if (imgMatch && imgMatch[1]) {
+                return imgMatch[1];
+            }
+            return 'https://via.placeholder.com/400x250?text=VnExpress';
+        }
+
+        function getNodeValue(parentNode, tagName) {
+            // Hàm helper để lấy giá trị text của thẻ con
+            var nodes = parentNode.getElementsByTagName(tagName);
+            if (nodes.length > 0 && nodes[0].childNodes.length > 0) {
+                return nodes[0].childNodes[0].nodeValue;
+            }
+            return '';
+        }
+
+        function displayNews() {
+            var newsContainer = document.getElementById('newsContainer');
+            var filteredNews = filterNews(allNews);
+
+            if (filteredNews.length === 0) {
+                newsContainer.innerHTML = '<div class="error">Không có tin tức nào trong khoảng thời gian này.</div>';
+                return;
+            }
+
+            var html = '';
+            for (var i = 0; i < filteredNews.length; i++) {
+                var item = filteredNews[i];
+                html += '<div class="news-item" onclick="window.open(\'' + item.link + '\', \'_blank\')">' +
+                        '<img src="' + item.image + '" alt="' + item.title + '" class="news-image" ' +
+                        'onerror="this.src=\'https://via.placeholder.com/400x250?text=VnExpress\'">' +
+                        '<div class="news-content">' +
+                        '<h2 class="news-title">' + item.title + '</h2>' +
+                        '<p class="news-description">' + item.description + '</p>' +
+                        '<div class="news-meta">' +
+                        '<span class="news-date">📅 ' + formatDate(item.pubDate) + '</span>' +
+                        '<span>👁️ Xem thêm →</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+            }
+            newsContainer.innerHTML = html;
+        }
+
+        function filterNews(news) {
+            var now = new Date();
+            var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            var yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            var weekAgo = new Date(today);
+            weekAgo.setDate(weekAgo.getDate() - 7);
+
+            var filtered = [];
+            for (var i = 0; i < news.length; i++) {
+                var item = news[i];
+                var include = false;
+                
+                switch(currentFilter) {
+                    case 'today':
+                        include = item.pubDate >= today;
+                        break;
+                    case 'yesterday':
+                        include = item.pubDate >= yesterday && item.pubDate < today;
+                        break;
+                    case 'week':
+                        include = item.pubDate >= weekAgo;
+                        break;
+                    default:
+                        include = true;
+                }
+                
+                if (include) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+
+        function filterByDate(filter) {
+            currentFilter = filter;
+            
+            // Update button states
+            var buttons = document.querySelectorAll('.filter-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            event.target.classList.add('active');
+            
+            displayNews();
+        }
+
+        function formatDate(date) {
+            var now = new Date();
+            var diff = now - date;
+            var hours = Math.floor(diff / 3600000);
+            var days = Math.floor(diff / 86400000);
+
+            if (hours < 1) {
+                var minutes = Math.floor(diff / 60000);
+                return minutes + ' phút trước';
+            } else if (hours < 24) {
+                return hours + ' giờ trước';
+            } else if (days < 7) {
+                return days + ' ngày trước';
+            } else {
+                return date.toLocaleDateString('vi-VN', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+        }
+
+        function updateLastUpdateTime() {
+            var lastUpdate = document.getElementById('lastUpdate');
+            var now = new Date();
+            lastUpdate.textContent = 'Cập nhật lúc: ' + now.toLocaleTimeString('vi-VN') + 
+                                    ' - ' + now.toLocaleDateString('vi-VN');
+        }
+
+        function showError(message) {
+            var error = document.getElementById('error');
+            error.style.display = 'block';
+            error.innerHTML = '❌ ' + message;
+        }
+
+        // Tự động tải RSS khi trang được mở
+        loadRSS();
+
+        // Tự động làm mới mỗi 5 phút
+        setInterval(loadRSS, 300000);
+    </script>
+</body>
+</html>

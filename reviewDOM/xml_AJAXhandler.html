@@ -1,0 +1,70 @@
+
+<html>
+    <head>
+        <title>Diệu</title>
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+                <td>Xml String:</td>
+                <td id="td_xml_string"></td>
+            </tr>
+            <tr>
+                <td>Title:</td>
+                <td id="td_title"></td>
+            </tr>
+            <tr>
+                <td>Author:</td>
+                <td id="td_author"></td>
+            </tr>
+            <tr>
+                <td>Year:</td>
+                <td id="td_year"></td>
+            </tr>
+        </table>
+        <script type="text/javascript">
+            var xhr = new XMLHttpRequest(); //gửi yêu cầu đến máy chủ 
+            xhr.open("GET","xml_dataset.xml",true); // thiết lập yêu cầu GET đến file xml_dataset.xml, true: bất đồng bộ
+            xhr.send(); // gửi yêu cầu đến máy chủ
+            xhr.onreadystatechange=function()
+            {
+                if (xhr.readyState==4 && xhr.status==200)
+                {
+                    //xử lý khi tải dữ liệu thành công
+
+                    //nếu nó chui vào đây được tức là đã tải
+                    //dữ liệu về local rồi--> dùng DOM để truy suất
+
+                    //Cách 1:
+                    // txt=xhr.responseText
+                    // td_xml_string.innerText=txt
+                    // var parser = new DOMParser(); 
+                    // var xmlDoc = parser.parseFromString(txt,"text/xml"); 
+
+                    //cách 2:
+                    var xmlDoc = xhr.responseXML; //lấy tài liệu XML từ phản hồi
+                    
+                    if (xmlDoc) { //kiểm tra xem xmlDoc có hợp lệ không -> dùng DOM để hiển thị dữ liệu 
+                        var title = xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                        document.getElementById("td_title").innerText = title;
+                        
+                        var author = xmlDoc.getElementsByTagName("author")[0].childNodes[0].nodeValue;
+                        document.getElementById("td_author").innerText = author;
+                        
+                        var year = xmlDoc.getElementsByTagName("year")[0].childNodes[0].nodeValue;
+                        document.getElementById("td_year").innerText = year;
+                    } else {
+                        alert("Không thể parse XML!");
+                        console.log("Response Text:", xhr.responseText);
+                    }
+                }
+                else if (xhr.readyState==4)
+                {
+                    //xử lý khi lỗi 
+                    alert("Không thể tải file XML! Status: " + xhr.status + "\nBạn cần chạy file qua HTTP server, không thể mở trực tiếp từ file://");
+                }
+            }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiwi Company</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header - Part A -->
+<nav id="mainNav">
+    <button class="nav-btn active" data-section="about">About me</button>
+    
+    <div class="nav-btn">
+        <button style="pointer-events: none;">Form & Javascript</button>
+        <div class="nav-dropdown">
+            <button data-section="products">Products</button>
+            <button data-section="employees">Employees</button>
+        </div>
+    </div>
+    
+    <div class="nav-btn">
+        <button style="pointer-events: none;">API and External</button>
+        <div class="nav-dropdown">
+            <button data-section="weather">Weather API</button>
+            <button data-section="rss">RSS</button>
+            <button data-section="lottery">Lottery</button>
+        </div>
+    </div>
+    
+    <button class="nav-btn" id="logoutBtn" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); color: #ef4444; margin-left: auto;">
+        <i data-lucide="log-out"></i>
+        Logout
+    </button>
+</nav>
+
+    <div class="main-container">
+        <!-- Sidebar Left - Part B -->
+        <aside class="sidebar-left">
+            <h3>
+                <i data-lucide="user-circle"></i>
+                Student Info
+            </h3>
+            <div class="student-info">
+                <div class="avatar">
+                    <img src="avatar_img.jpg" alt="Avatar">
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Student ID</div>
+                    <div class="info-value">K234111427</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Full Name</div>
+                        <div class="info-value">Bui Hoang Dieu</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Class</div>
+                    <div class="info-value">K234112E</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Content - Part C -->
+        <main class="content">
+            <!-- About Me Section (Q2: Default section) -->
+<section id="about" class="content-section active">
+    <h2 class="section-title">
+        <i data-lucide="info"></i>
+        About Me
+    </h2>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 30px;">
+        <!-- Avatar -->
+        <div style="width: 150px; height: 150px; background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(74, 222, 128, 0.4); overflow: hidden;">
+            <img src="avatar_img.jpg" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-size: 60px; font-weight: bold; color: #0f1419;\'>BD</span>'">
+        </div>
+        
+        <!-- Student Information -->
+        <div style="background: rgba(74, 222, 128, 0.05); border: 1px solid rgba(74, 222, 128, 0.2); border-radius: 15px; padding: 30px; width: 100%; max-width: 600px;">
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; row-gap: 15px;">
+                <div style="color: #94a3b8; font-weight: 600;">Student ID:</div>
+                <div style="color: #4ade80; font-weight: 700; font-size: 18px;">K234111427</div>
+                
+                <div style="color: #94a3b8; font-weight: 600;">Full Name:</div>
+                <div style="color: #4ade80; font-weight: 700; font-size: 18px;">Bui Hoang Dieu</div>
+                
+                <div style="color: #94a3b8; font-weight: 600;">Class:</div>
+                <div style="color: #4ade80; font-weight: 700; font-size: 18px;">K234112E</div>
+            </div>
+        </div>
+        
+        <!-- Description -->
+        <div style="line-height: 2; color: #94a3b8; text-align: center; max-width: 700px;">
+            <p style="margin-bottom: 20px;">
+                Hello! I am an E-commerce student, passionate about web and application development.
+            </p>
+            <p style="margin-bottom: 20px;">
+                This website was built to practice skills in HTML, CSS, JavaScript, and handling XML/JSON data.
+            </p>
+            <p>
+                Features include: product management, employee management, weather information display,
+                reading RSS feeds, and integrating lottery APIs.
+            </p>
+        </div>
+    </div>
+</section>
+
+            <!-- Products Section (Q3: Display XML products) -->
+            <section id="products" class="content-section">
+                <h2 class="section-title">
+                    <i data-lucide="package"></i>
+                    Products List
+                </h2>
+                <div id="productsTable"></div>
+            </section>
+
+            <!-- Employees Section (Q4: Form and table with age colors) -->
+            <section id="employees" class="content-section">
+                <h2 class="section-title">
+                    <i data-lucide="users"></i>
+                    Employees Management
+                </h2>
+                <form id="employeeForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" id="empId" placeholder="Employee ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="empName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="empPhone" placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="empEmail" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" id="empAge" placeholder="Age" required min="18" max="100">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i data-lucide="user-plus"></i>
+                        Add Employee
+                    </button>
+                </form>
+                <table id="employeesTable" style="margin-top: 30px;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Age</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <!-- Weather Section (Q5: Weather API from tuoitre.vn) -->
+<section id="weather" class="content-section" style="overflow-y:scroll; height:800px">
+    <h2 class="section-title">
+        <i data-lucide="cloud"></i>
+        Vietnam Weather Information
+    </h2>
+    <button class="btn" onclick="loadAllWeather()" style="margin-bottom: 20px;">
+        <i data-lucide="refresh-cw"></i>
+        Load All Cities Weather
+    </button>
+    <div id="weatherData"></div>
+</section>
+
+            <!-- RSS Section (Q6: VnExpress RSS Sport) -->
+            <section id="rss" class="content-section">
+                <h2 class="section-title">
+                    <i data-lucide="rss"></i>
+                    VnExpress RSS Sport
+                </h2>
+                <button class="btn" onclick="loadRSS()" style="margin-bottom: 20px;">
+                    <i data-lucide="refresh-cw"></i>
+                    Refresh
+                </button>
+                <div id="rssData"></div>
+            </section>
+
+            <!-- Lottery Section (Q8: Vietlott API) -->
+            <section id="lottery" class="content-section">
+                <h2 class="section-title">
+                    <i data-lucide="trophy"></i>
+                    Vietlott Jackpot Information
+                </h2>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="lottery" value="mega645" checked onchange="loadLottery(this.value)">
+                        <span>Mega 6/45</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="lottery" value="power655" onchange="loadLottery(this.value)">
+                        <span>Power 6/55</span>
+                    </label>
+                </div>
+                <table id="lotteryTable">
+                    <thead>
+                        <tr>
+                            <th>Draw No</th>
+                            <th>Draw Date</th>
+                            <th>Result</th>
+                            <th>Jackpot 1</th>
+                            <th>Jackpot 2</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </main>
+
+        <!-- Sidebar Right - Part D (Q9: Marquee) -->
+        <aside class="sidebar-right">
+            <h3 style="color: #4ade80; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                <i data-lucide="message-square"></i>
+                Declaration
+            </h3>
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    I declare that all of these solutions are my own and not copied from anyone in this class
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer - Part E (Q10: Auto-update date/time) -->
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">
+                Designed by <strong id="footerName">Bui Hoang Dieu</strong>, 
+                today is <strong id="footerDate"></strong>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Q7: Check login status
+    const STORAGE_KEY = 'kiwi_logged_in_user';
+    const loggedInUser = localStorage.getItem(STORAGE_KEY);
+
+    if (!loggedInUser) {
+        window.location.href = 'login.html';
+    }
+
+    // Student Information
+    const studentInfo = {
+        id: 'K234111427',
+        name: 'Bui Hoang Dieu',
+        class: 'K234112E'
+    };
+
+    // Employees data (in-memory storage)
+    let employees = [];
+
+    // Q10: Update footer date and time every second
+    function updateFooter() {
+        const now = new Date();
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        };
+        document.getElementById('footerDate').textContent = now.toLocaleString('en-US', options);
+        document.getElementById('footerName').textContent = studentInfo.name;
+    }
+    setInterval(updateFooter, 1000);
+    updateFooter();
+
+    // Q7: Logout handler
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to logout?')) {
+            localStorage.removeItem(STORAGE_KEY);
+            window.location.href = 'login.html';
+        }
+    });
+
+    // Navigation - Handle dropdown menu clicks
+    document.querySelectorAll('[data-section]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const section = this.dataset.section;
+            
+            // Remove active from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            
+            // Add active to parent nav-btn if it's in dropdown
+            if (this.parentElement.classList.contains('nav-dropdown')) {
+                this.parentElement.parentElement.classList.add('active');
+            } else {
+                this.closest('.nav-btn').classList.add('active');
+            }
+            
+            // Show selected section
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            
+            lucide.createIcons();
+        });
+    });
+
+    // Add delay before hiding dropdown
+    document.querySelectorAll('.nav-btn').forEach(navBtn => {
+        let hideTimeout;
+        
+        navBtn.addEventListener('mouseenter', function() {
+            clearTimeout(hideTimeout);
+            const dropdown = this.querySelector('.nav-dropdown');
+            if (dropdown) {
+                dropdown.style.display = 'block';
+                setTimeout(() => {
+                    dropdown.style.opacity = '1';
+                }, 10);
+            }
+        });
+        
+        navBtn.addEventListener('mouseleave', function() {
+            const dropdown = this.querySelector('.nav-dropdown');
+            if (dropdown) {
+                hideTimeout = setTimeout(() => {
+                    dropdown.style.opacity = '0';
+                    setTimeout(() => {
+                        dropdown.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        });
+    });
+
+    // Q3: Load Products from XML using AJAX and DOMParser
+    function loadProducts() {
+        const productsTable = document.getElementById('productsTable');
+        productsTable.innerHTML = '<div class="loading">⏳ Loading products list...</div>';
+
+        const xmlUrl = 'https://tranduythanh.com/datasets/CA01_products.xml';
+        
+        const proxies = [
+            `https://api.allorigins.win/raw?url=${encodeURIComponent(xmlUrl)}`,
+            `https://corsproxy.io/?${encodeURIComponent(xmlUrl)}`,
+            `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(xmlUrl)}`
+        ];
+
+        let currentProxyIndex = 0;
+
+        function tryLoadWithProxy() {
+            if (currentProxyIndex >= proxies.length) {
+                productsTable.innerHTML = '<div style="color: #ef4444; padding: 20px; text-align: center;">❌ Unable to load product data. Please try again later.</div>';
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', proxies[currentProxyIndex], true);
+            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            const parser = new DOMParser();
+                            const xmlDoc = parser.parseFromString(xhr.responseText, 'text/xml');
+                            const products = xmlDoc.getElementsByTagName('product');
+                            
+                            if (products.length === 0) {
+                                throw new Error('No products found');
+                            }
+                            
+                            let html = '<table><thead><tr><th>ID</th><th>Image</th><th>Name</th><th>Detail</th></tr></thead><tbody>';
+                            for (let i = 0; i < products.length; i++) {
+                                const id = products[i].getElementsByTagName('id')[0].textContent;
+                                const name = products[i].getElementsByTagName('name')[0].textContent;
+                                const detail = products[i].getElementsByTagName('detail')[0].textContent;
+                                const image = products[i].getElementsByTagName('image')[0].textContent;
+                                
+                                html += `
+                                    <tr>
+                                        <td>${id}</td>
+                                        <td><img src="${image}" alt="${name}" class="product-img" onerror="this.src='https://via.placeholder.com/60x60?text=No+Image'"></td>
+                                        <td style="font-weight: 600; color: #4ade80;">${name}</td>
+                                        <td style="color: #94a3b8;">${detail.substring(0, 150)}...</td>
+                                    </tr>
+                                `;
+                            }
+                            html += '</tbody></table>';
+                            productsTable.innerHTML = html;
+                        } catch (err) {
+                            currentProxyIndex++;
+                            tryLoadWithProxy();
+                        }
+                    } else {
+                        currentProxyIndex++;
+                        tryLoadWithProxy();
+                    }
+                }
+            };
+            
+            xhr.onerror = function() {
+                currentProxyIndex++;
+                tryLoadWithProxy();
+            };
+            
+            xhr.send();
+        }
+
+        tryLoadWithProxy();
+    }
+
+    // Q4: Employee Management
+let employeesData = {
+        metadata: {
+            version: "1.0",
+            created: new Date().toISOString(),
+            description: "Employee Management System - In-Memory JSON Storage"
+        },
+        employees: [],
+        statistics: {
+            totalCount: 0,
+            lastUpdated: null,
+            ageRange: {
+                young: 0,  // 18-35
+                mature: 0  // >35
+            }
+        }
+    };
+
+    // Function để cập nhật statistics
+    function updateStatistics() {
+        employeesData.statistics.totalCount = employeesData.employees.length;
+        employeesData.statistics.lastUpdated = new Date().toISOString();
+        
+        let young = 0, mature = 0;
+        employeesData.employees.forEach(emp => {
+            if (emp.age >= 18 && emp.age <= 35) young++;
+            else mature++;
+        });
+        employeesData.statistics.ageRange.young = young;
+        employeesData.statistics.ageRange.mature = mature;
+    }
+    
+    // Add employee
+    document.getElementById('employeeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const newEmployee = {
+            id: document.getElementById('empId').value,
+            name: document.getElementById('empName').value,
+            phone: document.getElementById('empPhone').value,
+            email: document.getElementById('empEmail').value,
+            age: parseInt(document.getElementById('empAge').value),
+            addedDate: new Date().toISOString(),
+            status: "active"
+        };
+        
+        // Thêm vào JSON array
+        employeesData.employees.push(newEmployee);
+        updateStatistics();
+        
+        renderEmployees();
+        this.reset();
+        
+        // Log JSON array ra console để kiểm tra
+        console.log('=== EMPLOYEES JSON ARRAY ===');
+        console.log(JSON.stringify(employeesData, null, 2));
+        console.log('Total employees:', employeesData.statistics.totalCount);
+    });
+
+    // Render employees table
+    function renderEmployees() {
+        let html = '';
+        employeesData.employees.forEach((emp, index) => {
+            const ageClass = (emp.age >= 18 && emp.age <= 35) ? 'age-18-35' : 'age-other';
+            html += `
+                <tr class="${ageClass}">
+                    <td>${emp.id}</td>
+                    <td style="font-weight: 600;">${emp.name}</td>
+                    <td>${emp.phone}</td>
+                    <td>${emp.email}</td>
+                    <td style="font-weight: 700;">${emp.age}</td>
+                    <td>
+                        <button class="btn btn-delete" onclick="deleteEmployee(${index})">
+                            <i data-lucide="trash-2"></i>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+        document.querySelector('#employeesTable tbody').innerHTML = html;
+        lucide.createIcons();
+    }
+
+    // Delete employee
+    function deleteEmployee(index) {
+        if (confirm('Are you sure you want to delete this employee?')) {
+            const deletedEmp = employeesData.employees[index];
+            employeesData.employees.splice(index, 1);
+            updateStatistics();
+            renderEmployees();
+            
+            console.log(`=== DELETED EMPLOYEE ===`);
+            console.log(`Deleted: ${deletedEmp.name} (ID: ${deletedEmp.id})`);
+            console.log('Remaining employees:', employeesData.statistics.totalCount);
+            console.log(JSON.stringify(employeesData, null, 2));
+        }
+    }
+
+    // Clear all employees
+    function clearAllEmployees() {
+        if (confirm('Are you sure you want to clear all employees? This action cannot be undone!')) {
+            const count = employeesData.employees.length;
+            employeesData.employees = [];
+            updateStatistics();
+            renderEmployees();
+            
+            console.log(`=== CLEARED ALL EMPLOYEES ===`);
+            console.log(`Removed ${count} employees from JSON array`);
+            console.log(JSON.stringify(employeesData, null, 2));
+        }
+    }
+
+
+    // Q5: Weather API
+    const weatherCityIds = ['2347719','20070078','20070086','2347731','2347730','20070081','20070087','20070084','20070088','2347703','2347704','20070082','2347732','28301718','20070085','1252375','2347720','28301719','2347721','2347722','2347733','2347727','2347728','2347734','2347741','2347736','2347737','20070079','20070080','2347707','28301720','2347738','2347723','20070076','2347708','2347710','2347740','2347709','2347718','20070089','2347742','2347743','2347744','20070091','2347745','2347746','2347711','20070077','2347712','2347747','2347748','2347713','2347715','2347716','20070083','2347749','2347717','2347750','2347751','2347714','2347752','20070090','2347729','2347753'];
+    const weatherCityNames = ['An Giang','Bình Dương','Bình Phước','Bình Thuận','Bình Định','Bạc Liêu','Bắc Giang','Bắc Kạn','Bắc Ninh','Bến Tre','Cao Bằng','Cà Mau','Cần Thơ','Điện Biên','Đà Nẵng','Đà Lạt','Đắk Lắk','Đắk Nông','Đồng Nai','Đồng Tháp','Gia Lai','Hà Nội','TP. Hồ Chí Minh','Hà Giang','Hà Nam','Hà Tĩnh','Hòa Bình','Hưng Yên','Hải Dương','Hải Phòng','Hậu Giang','Khánh Hòa','Kiên Giang','Kon Tum','Lai Châu','Long An','Lào Cai','Lâm Đồng','Lạng Sơn','Nam Định','Nghệ An','Ninh Bình','Ninh Thuận','Phú Thọ','Phú Yên','Quảng Bình','Quảng Nam','Quảng Ngãi','Quảng Ninh','Quảng Trị','Sóc Trăng','Sơn La','Thanh Hóa','Thái Bình','Thái Nguyên','Thừa Thiên Huế','Tiền Giang','Trà Vinh','Tuyên Quang','Tây Ninh','Vĩnh Long','Vĩnh Phúc','Vũng Tàu','Yên Bái'];
+
+    async function loadAllWeather() {
+        const weatherData = document.getElementById('weatherData');
+        weatherData.innerHTML = '<div class="loading">⏳ Loading all cities weather data...</div>';
+
+        try {
+            const weatherPromises = weatherCityIds.map(async (cityId, index) => {
+                try {
+                    const apiUrl = `https://utils3.cnnd.vn/ajax/weatherinfo/${cityId}.htm`;
+                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+
+                    const response = await fetch(proxyUrl);
+                    if (!response.ok) return null;
+
+                    const text = await response.text();
+                    const json = JSON.parse(text);
+                    const data = JSON.parse(json.contents);
+
+                    if (!data?.Data?.data?.datainfo) return null;
+
+                    const info = data.Data.data.datainfo;
+                    return {
+                        city: weatherCityNames[index],
+                        temperature: parseFloat(info.temperature) || 0,
+                        status: info.status || 'N/A',
+                        humidity: info.humidity || 'N/A',
+                        wind: info.wind?.index || 'N/A'
+                    };
+                } catch (error) {
+                    return null;
+                }
+            });
+
+            const results = await Promise.all(weatherPromises);
+            const validResults = results.filter(r => r !== null);
+
+            validResults.sort((a, b) => a.temperature - b.temperature);
+
+            let html = '<table><thead><tr><th>City/Province</th><th>Temperature (°C)</th><th>Status</th><th>Humidity</th><th>Wind</th></tr></thead><tbody>';
+            
+            validResults.forEach(item => {
+                html += `
+                    <tr>
+                        <td style="font-weight: 600; color: #4ade80;">${item.city}</td>
+                        <td style="font-weight: 700; font-size: 18px; color: #4ade80;">${item.temperature}°C</td>
+                        <td style="color: #94a3b8;">${item.status}</td>
+                        <td>${item.humidity}</td>
+                        <td>${item.wind}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            weatherData.innerHTML = html;
+
+        } catch (error) {
+            weatherData.innerHTML = `<div style="color: #ef4444; padding: 20px; text-align: center;">❌ Error loading weather data: ${error.message}</div>`;
+        }
+    }
+
+    // Q6: RSS Feed (VnExpress Sport)
+    function loadRSS() {
+        const rssData = document.getElementById('rssData');
+        rssData.innerHTML = '<div class="loading">⏳ Loading RSS feed...</div>';
+
+        const rssUrl = 'https://vnexpress.net/rss/the-thao.rss';
+        const corsProxy = 'https://api.allorigins.win/raw?url=';
+        const fullUrl = corsProxy + encodeURIComponent(rssUrl);
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", fullUrl, true);
+        xhr.send();
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                try {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xhr.responseText, "text/xml");
+                    const items = xmlDoc.getElementsByTagName("item");
+                    
+                    let html = '';
+                    for (let i = 0; i < Math.min(items.length, 10); i++) {
+                        const title = getNodeValue(items[i], "title");
+                        const description = getNodeValue(items[i], "description");
+                        const link = getNodeValue(items[i], "link");
+                        const pubDate = getNodeValue(items[i], "pubDate");
+                        
+                        const cleanDesc = description.replace(/<[^>]*>/g, '').substring(0, 200);
+                        
+                        html += `
+                            <div class="rss-item">
+                                <div class="rss-title">${title}</div>
+                                <div class="rss-description">${cleanDesc}...</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                                    <span style="color: #94a3b8; font-size: 12px;">📅 ${new Date(pubDate).toLocaleDateString('en-US')}</span>
+                                    <a href="${link}" target="_blank" class="rss-link">
+                                        View details
+                                        <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    rssData.innerHTML = html;
+                    lucide.createIcons();
+                } catch (err) {
+                    rssData.innerHTML = '<div style="color: #ef4444; padding: 20px; text-align: center;">❌ Error parsing RSS: ' + err.message + '</div>';
+                }
+            } else if (xhr.readyState === 4) {
+                rssData.innerHTML = '<div style="color: #ef4444; padding: 20px; text-align: center;">❌ Unable to load RSS feed</div>';
+            }
+        };
+    }
+
+    function getNodeValue(parentNode, tagName) {
+        const nodes = parentNode.getElementsByTagName(tagName);
+        if (nodes.length > 0 && nodes[0].childNodes.length > 0) {
+            return nodes[0].childNodes[0].nodeValue;
+        }
+        return '';
+    }
+
+    // Q8: Lottery API - Using AJAX
+    function loadLottery(type) {
+        const lotteryTable = document.querySelector('#lotteryTable tbody');
+        lotteryTable.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #4ade80;">⏳ Đang tải dữ liệu xổ số...</td></tr>';
+
+        const apiUrl = 'https://webapi.dantri.com.vn/lottery/get-vietlott-jack';
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', proxyUrl, true);
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    try {
+                        const result = JSON.parse(xhr.responseText);
+                        const data = JSON.parse(result.contents);
+
+                        if (!data.status || !data.data) {
+                            throw new Error('Invalid data format');
+                        }
+                        
+                        let results = [];
+                        if (type === 'mega645') {
+                            results = data.data.mega645 || [];
+                        } else if (type === 'power655') {
+                            results = data.data.power655 || [];
+                        }
+
+                        if (results.length === 0) {
+                            lotteryTable.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #94a3b8;">Không có dữ liệu</td></tr>';
+                            return;
+                        }
+
+                        let html = '';
+                        results.slice(0, 10).forEach(item => {
+                            const numbers = item.ListNumber || 'N/A';
+                            const drawDate = item.DrawDate || 'N/A';
+                            const drawId = item.DrawId || 'N/A';
+                            
+                            const jackpot1 = item.Jackpot ? new Intl.NumberFormat('vi-VN').format(item.Jackpot) + ' VNĐ' : 'N/A';
+                            const jackpot2 = item.Jackpot2 ? new Intl.NumberFormat('vi-VN').format(item.Jackpot2) + ' VNĐ' : 'N/A';
+                            
+                            html += `
+                                <tr>
+                                    <td style="font-weight: 700; color: #4ade80;">${drawId}</td>
+                                    <td>${drawDate}</td>
+                                    <td style="font-weight: 600; color: #4ade80; font-size: 16px;">${numbers}</td>
+                                    <td style="color: #eab308; font-weight: 700;">${jackpot1}</td>
+                                    <td style="color: #ec4899; font-weight: 700;">${jackpot2}</td>
+                                </tr>
+                            `;
+                        });
+                        lotteryTable.innerHTML = html;
+
+                    } catch (error) {
+                        lotteryTable.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444;">❌ ${error.message}</td></tr>`;
+                    }
+                } else {
+                    lotteryTable.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #ef4444;">❌ Không thể tải dữ liệu</td></tr>';
+                }
+            }
+        };
+        
+        xhr.onerror = function() {
+            lotteryTable.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #ef4444;">❌ Lỗi kết nối</td></tr>';
+        };
+        
+        xhr.send();
+    }
+
+    // Initialize
+    loadProducts();
+    loadAllWeather();
+    loadRSS();
+    loadLottery('mega645');
+    
+    // Auto refresh RSS every 5 minutes
+    setInterval(loadRSS, 300000);
+</script>
+</body>
+</html>

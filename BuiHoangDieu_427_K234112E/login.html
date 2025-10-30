@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Kiwi Company</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(74, 222, 128, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(74, 222, 128, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            padding: 40px;
+            background: rgba(26, 31, 46, 0.8);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #4ade80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4ade80;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(15, 20, 25, 0.6);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4ade80;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: #0f1419;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(74, 222, 128, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .demo-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        .demo-info p {
+            color: #94a3b8;
+            font-size: 12px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .demo-info strong {
+            color: #4ade80;
+            font-size: 14px;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #4ade80;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-100px) translateX(50px);
+            }
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 70%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 90%; animation-delay: 8s; }
+    </style>
+</head>
+<body>
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo">
+                <i data-lucide="zap" style="width: 40px; height: 40px;"></i>
+                KIWI COMPANY
+            </div>
+            <h2 class="login-title">
+                <i data-lucide="lock"></i>
+                Login
+            </h2>
+            <p class="login-subtitle">Please login to continue</p>
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>
+                    <i data-lucide="user" style="width: 14px; height: 14px; display: inline-block;"></i>
+                    Username
+                </label>
+                <input type="text" id="username" placeholder="Enter username" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>
+                    <i data-lucide="key" style="width: 14px; height: 14px; display: inline-block;"></i>
+                    Password
+                </label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="login-btn">
+                <i data-lucide="log-in"></i>
+                Login
+            </button>
+        </form>
+
+        <div class="demo-info">
+            <p>
+                💡 <strong>Demo account:</strong><br>
+                Username: <strong>admin</strong><br>
+                Password: <strong>123456</strong>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        const STORAGE_KEY = 'kiwi_logged_in_user';
+        const ACCOUNTS_KEY = 'kiwi_user_accounts';
+
+        // Initialize default accounts in localStorage if not exists
+        function initializeAccounts() {
+            let accounts = localStorage.getItem(ACCOUNTS_KEY);
+            if (!accounts) {
+                // Create default admin account
+                const defaultAccounts = [
+                    {
+                        username: 'admin',
+                        password: '123456',
+                        role: 'admin',
+                        createdDate: new Date().toISOString()
+                    }, 
+                    {
+                        username: 'user',
+                        password: 'password',
+                        role: 'user',
+                        createdDate: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(defaultAccounts));
+            }
+        }
+
+        // Check if account exists in localStorage
+        function validateCredentials(username, password) {
+            const accounts = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || '[]');
+            const account = accounts.find(acc => acc.username === username && acc.password === password);
+            return account ? true : false;
+        }
+
+        // Initialize accounts on page load
+        initializeAccounts();
+
+        // Check if already logged in
+        const loggedInUser = localStorage.getItem(STORAGE_KEY);
+        if (loggedInUser) {
+            // Already logged in, redirect to index
+            window.location.href = 'index.html';
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Validate credentials from localStorage
+            if (validateCredentials(username, password)) {
+                // Save to localStorage
+                localStorage.setItem(STORAGE_KEY, username);
+                
+                // Show success message
+                errorMessage.style.background = 'rgba(74, 222, 128, 0.2)';
+                errorMessage.style.borderColor = '#4ade80';
+                errorMessage.style.color = '#4ade80';
+                errorMessage.textContent = '✅ Login successful! Redirecting...';
+                errorMessage.style.display = 'block';
+                
+                // Log successful login
+                console.log('✅ Login successful:', username);
+                console.log('Accounts in storage:', JSON.parse(localStorage.getItem(ACCOUNTS_KEY)));
+                
+                // Redirect to index.html after 1 second
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            } else {
+                // Show error
+                errorMessage.style.background = 'rgba(239, 68, 68, 0.2)';
+                errorMessage.style.borderColor = '#ef4444';
+                errorMessage.style.color = '#ef4444';
+                errorMessage.textContent = '❌ Account does not exist or incorrect password!';
+                errorMessage.style.display = 'block';
+                
+                // Log failed login attempt
+                console.log('❌ Login failed for username:', username);
+                
+                // Shake animation
+                errorMessage.style.animation = 'none';
+                setTimeout(() => {
+                    errorMessage.style.animation = 'shake 0.5s ease';
+                }, 10);
+            }
+        });
+
+        // Clear error message when typing
+        document.getElementById('username').addEventListener('input', clearError);
+        document.getElementById('password').addEventListener('input', clearError);
+
+        function clearError() {
+            const errorMessage = document.getElementById('errorMessage');
+            if (errorMessage.style.display === 'block' && errorMessage.style.color === 'rgb(239, 68, 68)') {
+                errorMessage.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
